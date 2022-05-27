@@ -6,9 +6,11 @@ route.get('/', (req, res) => {
 })
 
 // Api Routes
+const authRoutes = require('./api/auth.js')
+const adminRoutes = require('./api/admin.js')
 const userRoutes = require('./api/user.js')
-// const authRoutes = require('./api/auth.js')
+route.use('/api/', authRoutes)
+route.use('/api/admins', adminRoutes)
 route.use('/api/users', userRoutes)
-// route.use('/api/', authRoutes)
 
 module.exports = route;
