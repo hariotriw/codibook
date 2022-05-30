@@ -7,25 +7,24 @@ const Navbar = () => {
         <>
             <nav className='navbar navbar-expand-lg navbar-light bg-light'>
                 <div className='container-fluid'>
-                    <a href='#' className='navbar-brand'>Codibook</a>
+                    <a href='/dashboard' className='navbar-brand'>Codibook</a>
                     <button type='button' className='navbar-toggler' data-bs-toggle='collapse' data-bs-target='#navbarCollapse'>
                         <span className='navbar-toggler-icon'></span>
                     </button>
                     <div className='collapse navbar-collapse' id='navbarCollapse'>
                         <div className='navbar-nav ms-auto'>
                             <a href='/dashboard' className='nav-item nav-link active'>Dashboard</a>
-                            <a href='#' className='nav-item nav-link'>Profile</a>
+                            <a href='/profile' className='nav-item nav-link'>Profile</a>
                             <div className='nav-item dropdown'>
-                                <a href='#' className='nav-link dropdown-toggle' data-bs-toggle='dropdown'>Seller Center</a>
+                                <a className='nav-link dropdown-toggle' data-bs-toggle='dropdown'>Seller Management</a>
                                 <div className='dropdown-menu'>
-                                    <a href='#' className='dropdown-item'>Products</a>
-                                    <a href='#' className='dropdown-item'>Orders</a>
-                                    <a href='#' className='dropdown-item'>Drafts</a>
+                                    <a href='/listproduct' className='dropdown-item'>Products</a>
+                                    <a href='/listorder' className='dropdown-item'>Orders</a>
                                 </div>
                             </div>
                         </div>
                         <div className='navbar-nav ms-auto'>
-                            <a href='#' className='nav-item nav-link'>Login</a>
+                            <a href='/login' className='nav-item nav-link'>Login</a>
                         </div>
                     </div>
                 </div>
