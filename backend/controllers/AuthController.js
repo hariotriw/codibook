@@ -6,14 +6,15 @@ const { v4: uuidv4 } = require('uuid')
 class AuthController {
     static async register(req, res) {
         try{
-            const {username, fullname, email, password, repassword} = req.body
-            let uuid = uuidv4()
+            const {name, email, gender, password, repassword} = req.body
             let avatar = null
+            let salt = "salt"
+            let birthdate = null
             const hashPwd = bcrypt.hashSync(password, 5)
-            let status = 0
+            let role = "user"
 
             let user = await User.create({
-                uuid, username, email, password: hashPwd, fullname, avatar, status
+                name, email, gender, password:hashPwd, avatar, salt, birthdate, role
             })
             res.status(201).json(user)
 
@@ -24,13 +25,13 @@ class AuthController {
     static async login(req, res) {
         try{
             console.log('masuk ke login controller')
-            const {username, password} = req.body
+            const {email, password} = req.body
             let user = await User.findOne({
                 where: {
-                    username
+                    email
                 }
             })
-            // console.log(req.body)
+            // console.log(user)
 
             if(user){
                 if(bcrypt.compareSync(String(password) , user.password)){
