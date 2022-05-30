@@ -1,4 +1,5 @@
 import Dashboard from '../AdminPages/Dashboard.js'
+import Profile from '../AdminPages/Profile.js'
 
 import AddProduct from '../AdminPages/Products/AddProduct.js'
 import EditProduct from '../AdminPages/Products/EditProduct.js'
@@ -9,6 +10,7 @@ import ListOrder from '../AdminPages/Orders/ListOrder.js'
 
 export {
     Dashboard,
+    Profile,
     AddProduct,
     EditProduct,
     ListProduct,

@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import Dashboard from '../../pages/AdminPages/Dashboard'
+import Profile from '../../pages/AdminPages/Profile'
 
 import AddProduct from '../../pages/AdminPages/Products/AddProduct'
 import ListProduct from '../../pages/AdminPages/Products/ListProduct'
@@ -16,6 +17,7 @@ const MainContent = () => {
             <div className='container-fluid'>
             <Routes>
                 <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+                <Route path="/profile" element={<Profile></Profile>}></Route>
                 <Route path="/addproduct" element={<AddProduct></AddProduct>}></Route>
                 <Route path="/listproduct" element={<ListProduct></ListProduct>}></Route>
                 <Route path="/editproduct" element={<EditProduct></EditProduct>}></Route>
