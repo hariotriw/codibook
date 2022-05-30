@@ -108,7 +108,7 @@ class ShoppingController {
             const role = verifyToken.role
             if(role === "user"){
                 let {shopCartId} = req.body
-                console.log(shopCartId);
+                // console.log(shopCartId);
                 let shoppingCart = await ShoppingCart.findOne({
                     where: {
                         UserId: UserId, status: "open", id: shopCartId
@@ -166,7 +166,7 @@ class ShoppingController {
             const role = verifyToken.role
             if(role === "user"){
                 let {shopCartId, city, address} = req.body
-                console.log(shopCartId);
+                // console.log(shopCartId);
                 let shoppingCart = await ShoppingCart.findOne({
                     where: {
                         UserId: UserId, status: "open", id: shopCartId
@@ -277,7 +277,7 @@ class ShoppingController {
             const role = verifyToken.role
             if(role === "user"){
                 let {shopCartId, payment_transaction, OrderName} = req.body
-                console.log(shopCartId);
+                // console.log(shopCartId);
                 let shoppingCart = await ShoppingCart.findOne({
                     where: {
                         UserId: UserId, status: "closed", id: shopCartId
@@ -302,6 +302,53 @@ class ShoppingController {
                         res.json("cek console log backend")
                     } else {
                         res.status(500).json("error while updating order..")
+                    }
+                    
+                    
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    }
+
+    // --- fungsi untuk user pay order ---
+    static async finishOrder(req, res){
+        try {
+            console.log("order cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                let {shopCartId, OrderName} = req.body
+                // console.log(shopCartId);
+                let shoppingCart = await ShoppingCart.findOne({
+                    where: {
+                        UserId: UserId, status: "closed", id: shopCartId
+                    }
+                })
+                if (shoppingCart === null){
+                    // Jika shopping cart tidak ditemukan
+                    res.status(500).json("invalid shopping cart")
+                } else {
+                    // Jika shopping cart ditemukan
+                    console.log("shopping cart found");
+                    
+                    let order = await Order.update({
+                        status: "closed"
+                    },{
+                        where: {
+                            name: OrderName, status: "shipping", UserId: UserId
+                        }
+                    })
+                    if(order[0] === 1){
+                        console.log("berhasil menyelesaikan Order");
+                        res.json("cek console log backend")
+                    } else {
+                        res.status(500).json("error while finishing order..")
                     }
                     
                     

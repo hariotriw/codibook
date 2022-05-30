@@ -8,6 +8,7 @@ shoppingRoutes.post("/addItemToCart", ShoppingController.addItemToCart)
 shoppingRoutes.post("/checkoutCart", ShoppingController.checkoutCart)
 shoppingRoutes.post("/orderCart", ShoppingController.orderCart)
 shoppingRoutes.post("/payOrder", ShoppingController.payOrder)
+shoppingRoutes.post("/finishOrder", ShoppingController.finishOrder)
 
 
 module.exports = shoppingRoutes;
