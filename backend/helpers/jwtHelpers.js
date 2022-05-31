@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 
 const tokenGenerator = (data) => {
-    const {id, uuid, username, email, status, password} = data
+    const {id, name, email, role, salt, password} = data
     return jwt.sign({
-        id, uuid, username, email, status
+        id, name, email, role, salt, password
     }, 'secret')
 }
 
