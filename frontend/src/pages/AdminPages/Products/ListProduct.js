@@ -1,180 +1,137 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginStatus, getDataUser } from "../../../actions/AuthenticationAction";
+import { adminGetAllProduct } from "../../../actions/AdminAction";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 const ListProduct = () => {
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
-    return (
-    <div>
-        <div className="page-header">
-          <h3 className="page-title"> Book List </h3>
-          <nav aria-label="button">
-            <div className="button">
-            <Button variant="outline-primary" href="/addproduct">+ Tambah Buku</Button>
-            </div>
-          </nav>
-        </div>
-        <div className="row">
-          <div className="col-lg-12 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <div className="table-responsive">
-                  <table className="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>User</th>
-                        <th>Product Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Expire</th>
-                        <th>Weight</th>
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th>Condition</th>
-                        <th>Total Sold</th>
-                        <th>Rating</th>
-                        <th>Views</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>Photoshop</td>
-                        <td className="text-danger"> 28.76% <i className="mdi mdi-arrow-down"></i></td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>10</td>
-                        <td><span className="badge bg-danger">Pending</span></td>
-                        <td>
-                          <Link className="no-link" to={`/editproduct`}>
-                            <img src={require('../../../assets/images/pencil-938.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                          | 
-                          <Link className="no-link" to={`/deleteproduct`}>
-                            <img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Messsy</td>
-                        <td>Flash</td>
-                        <td className="text-danger"> 21.06% <i className="mdi mdi-arrow-down"></i></td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>10</td>
-                        <td><span className="badge bg-warning">In progress</span></td>
-                        <td>
-                          <Link className="no-link" to={`/editproduct`}>
-                            <img src={require('../../../assets/images/pencil-938.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                          | 
-                          <Link className="no-link" to={`/deleteproduct`}>
-                            <img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>John</td>
-                        <td>Premier</td>
-                        <td className="text-danger"> 35.00% <i className="mdi mdi-arrow-down"></i></td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>10</td>
-                        <td><span className="badge bg-info">Fixed</span></td>
-                        <td>
-                          <Link className="no-link" to={`/editproduct`}>
-                            <img src={require('../../../assets/images/pencil-938.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                          | 
-                          <Link className="no-link" to={`/deleteproduct`}>
-                            <img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Peter</td>
-                        <td>After effects</td>
-                        <td className="text-success"> 82.00% <i className="mdi mdi-arrow-up"></i></td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>10</td>
-                        <td><span className="badge bg-success">Completed</span></td>
-                        <td>
-                          <Link className="no-link" to={`/editproduct`}>
-                            <img src={require('../../../assets/images/pencil-938.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                          | 
-                          <Link className="no-link" to={`/deleteproduct`}>
-                            <img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Dave</td>
-                        <td>53275535</td>
-                        <td className="text-success"> 98.05% <i className="mdi mdi-arrow-up"></i></td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>10</td>
-                        <td><span className="badge bg-warning">In progress</span></td>
-                        <td>
-                          <Link className="no-link" to={`/editproduct`}>
-                            <img src={require('../../../assets/images/pencil-938.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                           | 
-                          <Link className="no-link" to={`/deleteproduct`}>
-                            <img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width= '5%' className="img-responsive" />
-                          </Link>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+	const { getDataUserResult } = useSelector((state) => state.AuthReducer)
+	const { adminGetAllProductLoading, adminGetAllProductResult, adminGetAllProductError } = useSelector((state) => state.AdminReducer)
+
+	useEffect(() => {
+		dispatch(loginStatus())
+		dispatch(getDataUser())
+		dispatch(adminGetAllProduct())
+	}, [dispatch])
+
+	// useEffect(() => {
+	// 	if(loginStatusResult){
+	// 		if(loginStatusResult.status === false) {
+	// 			navigate('/login')
+	// 		}
+	// 	}
+		
+	// }, [loginStatusResult])
+
+	useEffect(() => {
+		if(getDataUserResult){
+			if(getDataUserResult.role === "admin") {
+				
+			} else if(getDataUserResult.role === "user") {
+				// nanti ubah ke navigate katalog
+				// navigate('/katalog')
+				navigate('/')
+			} else {
+				navigate('/login')
+			}
+		}
+	}, [getDataUserResult])
+
+	// console.log(adminGetAllProductResult);
+
+	// if (loginStatusResult.status === false) {
+	// 	navigate('/login')
+	// }
+
+	return (
+		<div>
+			<div className="page-header">
+				<h3 className="page-title"> Book List </h3>
+				<nav aria-label="button">
+					<div className="button">
+						<Button variant="outline-primary" href="/admin/addproduct">+ Tambah Buku</Button>
+					</div>
+				</nav>
+			</div>
+			<div className="row">
+				<div className="col-lg-12 grid-margin stretch-card">
+					<div className="card">
+						<div className="card-body">
+							<div className="table-responsive">
+								<table className="table table-hover table-responsive" style={{ width: "100%" }}>
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>Nama Produk</th>
+											<th>Deskripsi</th>
+											<th>Harga</th>
+											<th>Stok</th>
+											<th>Kadaluwarsa</th>
+											<th>Berat</th>
+											<th>Kategori</th>
+											<th>Brand</th>
+											<th>Kondisi</th>
+											<th>Total Dijual</th>
+											<th>Rating</th>
+											<th>Dilihat</th>
+											<th>Penjual</th>
+											<th >Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										{ adminGetAllProductResult ? 
+											adminGetAllProductResult.products.map((product, i) => {
+												return (
+													<tr>
+													<td>{i+1}</td>
+													<td>{product.name}</td>
+													<td>{product.desc}</td>
+													<td>Rp {product.price} </td>
+													<td>{product.stock}</td>
+													<td>{product.expire}</td>
+													<td>{product.weight} gram</td>
+													<td>{product.category}</td>
+													<td>{product.brand}</td>
+													<td>{product.condition}</td>
+													<td>{product.total_sold}</td>
+													<td>{product.rating}</td>
+													<td>{product.views}</td>
+													<td>{product.User.name}</td>
+													<td>
+														{/* <Link className="no-link" to={`/editproduct`}>
+															<img src={require('../../../assets/images/pencil-938.png')} alt='Responsive image' width='5%' className="img-responsive" />
+														</Link>
+														|
+														<Link className="no-link" to={`/deleteproduct`}>
+															<img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width='5%' className="img-responsive" />
+														</Link> */}
+														<Link className="no-link" to={`/editproduct`}>
+															<span>edit</span>
+														</Link>
+														|
+														<Link className="no-link" to={`/deleteproduct`}>
+															<span>hapus</span>
+														</Link>
+													</td>
+												</tr>
+												)}
+										) : adminGetAllProductLoading ? 'sedang mengambil data..' : 
+										adminGetAllProductError ? 'terjadi kesalahan' :
+										'data kosong'}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default ListProduct

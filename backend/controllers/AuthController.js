@@ -48,7 +48,7 @@ class AuthController {
 
             } else {
                 res.status(404).json({
-                    message: 'username not found'
+                    message: 'email not found'
                 })
             }
             // res.json(user)
