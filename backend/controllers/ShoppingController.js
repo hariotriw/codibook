@@ -208,7 +208,7 @@ class ShoppingController {
             const UserId = verifyToken.id
             const role = verifyToken.role
             if(role === "user"){
-                let {shopCartId, city, address} = req.body
+                let {shopCartId, city, address, OrderName} = req.body
                 // console.log(shopCartId);
                 let shoppingCart = await ShoppingCart.findOne({
                     where: {
@@ -236,41 +236,53 @@ class ShoppingController {
                             ShoppingCartId: shopCartId, status: "checkout"
                         }
                     })
-                    
-                    if(order){
-                        if (LineItems.length === 0){
-                            // Jika Line Item tidak ditemukan
-                            res.status(500).json("failed to changing Line Items")
-                        } else {
-                            // Jika Line Item sudah ada
-                            LineItems.forEach(Lite => {
-                                console.log(Lite.id);
-                                LineItem.update({
-                                    status: "ordered",
-                                    OrderName: orderName
+                    let payment_transaction = strGenerator(20)
+                    await Order.update({
+                        payment_transaction, city, address
+                    },{
+                        where: {
+                            UserId, name: OrderName, status: "open"
+                        }
+                    })
+                    .then(result => {
+                        let statusUpdate = result[0]
+                        console.log(statusUpdate);
+                        if(+statusUpdate === 1) {
+                            if (LineItems.length === 0){
+                                // Jika Line Item tidak ditemukan
+                                res.status(500).json("failed to changing Line Items")
+                            } else {
+                                // Jika Line Item sudah ada
+                                LineItems.forEach(Lite => {
+                                    console.log(Lite.id);
+                                    LineItem.update({
+                                        status: "ordered",
+                                        OrderName: OrderName
+                                    },{
+                                        where: {
+                                            id: Lite.id, 
+                                            ShoppingCartId: shopCartId,
+                                            status: "checkout"
+                                        }
+                                    })
+                                })
+                                ShoppingCart.update({
+                                    status: "closed"
                                 },{
                                     where: {
-                                        id: Lite.id, 
-                                        ShoppingCartId: shopCartId,
-                                        status: "checkout"
+                                        id: shopCartId
                                     }
                                 })
-                            })
-                            ShoppingCart.update({
-                                status: "closed"
-                            },{
-                                where: {
-                                    id: shopCartId
-                                }
-                            })
-                            console.log("berhasil menambahkan Order");
-                            res.json("cek console log backend")
+                                console.log("berhasil menambahkan Order");
+                                res.json("cek console log backend")
+                            }
+                        } else {
+                            res.status(500).status("error while creating order..")
                         }
-                    } else {
+                    })
+                    .catch(err => {
                         res.status(500).status("error while creating order..")
-                    }
-                    
-                    
+                    })
                 }
             } else {
                 res.status(403).json("You don't have access to use this features..")
@@ -676,8 +688,7 @@ class ShoppingController {
             res.json(err)
         }
     }
-
-    // --- fungsi untuk user mengambil data pembayaran ---
+    // --- fungsi untuk user mengambil data checkout ---
     static async getDataPayment(req, res){
         try {
             console.log("order cart")
@@ -686,36 +697,30 @@ class ShoppingController {
             const UserId = verifyToken.id
             const role = verifyToken.role
             if(role === "user"){
-                // let shopCartId = req.params.CartId
-                // console.log(shopCartId);
-                let shoppingCart = await ShoppingCart.findOne({
-                    where: {
-                        UserId: UserId, status: "open"
-                    },
-                    include: [{
-                        model: LineItem
-                    }]
-                })
+                let payment_transaction = req.params.trxNumber
+                // console.log(orderId);
+                
                 //     Line Item
-                let result = await LineItem.findAll({
+                let order = await Order.findOne({
                     include: [{
-                        model: Product,
-                        foreignKey: 'ProductId',
+                        model: User,
+                        foreignKey: 'UserId',
+                        attributes: {exclude: ['password', 'salt', 'birthdate', 'gender']}
                     },{
-                        model: ShoppingCart,
-                        foreignKey: 'ShoppingCartId',
-                    },{
-                        model: Order,
-                        foreignKey: 'OrderName',
-                    }]
+                        model: LineItem,
+                        sourceKey: 'OrderName'
+                    }],
+                    where: {
+                        UserId, payment_transaction: payment_transaction, status: "open"
+                    }
                 })
-                if (shoppingCart === null){
-                    // Jika shopping cart tidak ditemukan
-                    res.status(500).json("invalid shopping cart")
+                if (order === null){
+                    // Jika order tidak ditemukan
+                    res.status(500).json("invalid transaction")
                 } else {
-                    // Jika shopping cart ditemukan
-                    console.log("shopping cart found");
-                    res.json(shoppingCart)
+                    // Jika order ditemukan
+                    console.log("transaction found");
+                    res.json(order)
                 }
             } else {
                 res.status(403).json("You don't have access to use this features..")
@@ -724,6 +729,8 @@ class ShoppingController {
             res.json(err)
         }
     }
+
+ 
 
     // --- fungsi untuk merender dan menampilkan semua data products ---
     static async index(req, res){
