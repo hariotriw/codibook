@@ -314,7 +314,7 @@ class ShoppingController {
         }
     }
 
-    // --- fungsi untuk user pay order ---
+    // --- fungsi untuk user finish order ---
     static async finishOrder(req, res){
         try {
             console.log("order cart")
@@ -361,7 +361,7 @@ class ShoppingController {
         }
     }
 
-    // --- fungsi untuk user pay order ---
+    // --- fungsi untuk user cancel order ---
     static async cancelOrder(req, res){
         try {
             console.log("order cart")
@@ -397,6 +397,54 @@ class ShoppingController {
                     } else {
                         res.status(500).json("error while cancelling order..")
                     } 
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    }
+
+    // --- fungsi untuk user mengambil data checkout ---
+    static async getDataCheckout(req, res){
+        try {
+            console.log("order cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                // let shopCartId = req.params.CartId
+                // console.log(shopCartId);
+                let shoppingCart = await ShoppingCart.findOne({
+                    where: {
+                        UserId: UserId, status: "open"
+                    },
+                    include: [{
+                        model: LineItem
+                    }]
+                })
+                //     Line Item
+                let result = await LineItem.findAll({
+                    include: [{
+                        model: Product,
+                        foreignKey: 'ProductId',
+                    },{
+                        model: ShoppingCart,
+                        foreignKey: 'ShoppingCartId',
+                    },{
+                        model: Order,
+                        foreignKey: 'OrderName',
+                    }]
+                })
+                if (shoppingCart === null){
+                    // Jika shopping cart tidak ditemukan
+                    res.status(500).json("invalid shopping cart")
+                } else {
+                    // Jika shopping cart ditemukan
+                    console.log("shopping cart found");
+                    res.json(shoppingCart)
                 }
             } else {
                 res.status(403).json("You don't have access to use this features..")
