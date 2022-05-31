@@ -47,112 +47,140 @@ const Dashboard = () => {
                 <div className="col-md-8">
                     <div className="card mb-3">
                         <div className="card-body">
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Full Name</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    Kenneth Valdez
-              </div>
-            </div>
-            <hr />
-            <div className="row">
-              <div className="col-sm-3">
-                <h6 className="mb-0">Email</h6>
-              </div>
-              <div className="col-sm-9 text-secondary">
-                fip@jukmuh.al
-              </div>
-            </div>
-            <hr />
-            <div className="row">
-              <div className="col-sm-3">
-                <h6 className="mb-0">Phone</h6>
-              </div>
-              <div className="col-sm-9 text-secondary">
-                (239) 816-9029
-              </div>
-            </div>
-            <hr />
-            <div className="row">
-              <div className="col-sm-3">
-                <h6 className="mb-0">Mobile</h6>
-              </div>
-              <div className="col-sm-9 text-secondary">
-                (320) 380-4539
-              </div>
-            </div>
-            <hr />
-            <div className="row">
-              <div className="col-sm-3">
-                <h6 className="mb-0">Address</h6>
-              </div>
-              <div className="col-sm-9 text-secondary">
-                Bay Area, San Francisco, CA
-              </div>
-            </div>
-            <hr />
-            <div className="row">
-              <div className="col-sm-12">
-                <a className="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-              </div>
-            </div>
+                        <div className="table-responsive">
+                  <table className="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Product Name</th>
+                        <th>Stock</th>
+                        <th>Expire</th>
+                        <th>Brand</th>
+                        <th>Total Sold</th>
+                        <th>Rating</th>
+                        <th>Views</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Jacob</td>
+                        <td>Photoshop</td>
+                        <td className="text-danger"> 28.76% <i className="mdi mdi-arrow-down"></i></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td><span className="badge bg-danger">Pending</span></td>
+                      </tr>
+                      <tr>
+                        <td>Messsy</td>
+                        <td>Flash</td>
+                        <td className="text-danger"> 21.06% <i className="mdi mdi-arrow-down"></i></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td><span className="badge bg-warning">In progress</span></td>
+                      </tr>
+                      <tr>
+                        <td>John</td>
+                        <td>Premier</td>
+                        <td className="text-danger"> 35.00% <i className="mdi mdi-arrow-down"></i></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td><span className="badge bg-info">Fixed</span></td>
+                      </tr>
+                      <tr>
+                        <td>Peter</td>
+                        <td>After effects</td>
+                        <td className="text-success"> 82.00% <i className="mdi mdi-arrow-up"></i></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td><span className="badge bg-success">Completed</span></td>
+                      </tr>
+                      <tr>
+                        <td>Dave</td>
+                        <td>53275535</td>
+                        <td className="text-success"> 98.05% <i className="mdi mdi-arrow-up"></i></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td><span className="badge bg-warning">In progress</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
           </div>
         </div>
-        <div className="row gutters-sm">
-          <div className="col-sm-6 mb-3">
-            <div className="card h-100">
-              <div className="card-body">
-                <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                <small>Web Design</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '80%'}} aria-valuenow={80} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>Website Markup</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '72%'}} aria-valuenow={72} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>One Page</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '89%'}} aria-valuenow={89} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>Mobile Template</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '55%'}} aria-valuenow={55} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>Backend API</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '66%'}} aria-valuenow={66} aria-valuemin={0} aria-valuemax={100} />
-                </div>
+        <div className="card mb-3">
+                        <div className="card-body">
+                        <div className="table-responsive">
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Order Name</th>
+                      <th>Sub Total</th>
+                      <th>Total Quantity</th>
+                      <th>Payment Transaction</th>
+                      <th>City</th>
+                      <th>Address</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Jacob</td>
+                      <td>Photoshop</td>
+                      <td className="text-danger"> 28.76% <i className="mdi mdi-arrow-down"></i></td>
+                      <td>1</td>
+                      <td>2</td>
+                      <td>3</td>
+                      <td><span className="badge bg-danger">pending</span></td>
+                    </tr>
+                    <tr>
+                      <td>Messsy</td>
+                      <td>Flash</td>
+                      <td className="text-danger"> 21.06% <i className="mdi mdi-arrow-down"></i></td>
+                      <td>1</td>
+                      <td>2</td>
+                      <td>3</td>
+                      <td><span className="badge bg-warning">In progress</span></td>
+                    </tr>
+                    <tr>
+                      <td>John</td>
+                      <td>Premier</td>
+                      <td className="text-danger"> 35.00% <i className="mdi mdi-arrow-down"></i></td>
+                      <td>1</td>
+                      <td>2</td>
+                      <td>3</td>
+                      <td><span className="badge bg-info">Fixed</span></td>
+                    </tr>
+                    <tr>
+                      <td>Peter</td>
+                      <td>After effects</td>
+                      <td className="text-success"> 82.00% <i className="mdi mdi-arrow-up"></i></td>
+                      <td>1</td>
+                      <td>2</td>
+                      <td>3</td>
+                      <td><span className="badge bg-success">Completed</span></td>
+                    </tr>
+                    <tr>
+                      <td>Dave</td>
+                      <td>53275535</td>
+                      <td className="text-success"> 98.05% <i className="mdi mdi-arrow-up"></i></td>
+                      <td>1</td>
+                      <td>2</td>
+                      <td>3</td>
+                      <td><span className="badge bg-warning">In progress</span></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
-          </div>
-          <div className="col-sm-6 mb-3">
-            <div className="card h-100">
-              <div className="card-body">
-                <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                <small>Web Design</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '80%'}} aria-valuenow={80} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>Website Markup</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '72%'}} aria-valuenow={72} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>One Page</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '89%'}} aria-valuenow={89} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>Mobile Template</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '55%'}} aria-valuenow={55} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-                <small>Backend API</small>
-                <div className="progress mb-3" style={{height: '5px'}}>
-                  <div className="progress-bar bg-primary" role="progressbar" style={{width: '66%'}} aria-valuenow={66} aria-valuemin={0} aria-valuemax={100} />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
