@@ -122,6 +122,188 @@ class ShoppingController {
                     // Jika shopping cart ditemukan
                     console.log("line items");
                     let LineItems = await LineItem.findAll({
+                        include: [{
+                            model: Product,
+                            foreignKey: 'ProductId',
+                        },{
+                            model: ShoppingCart,
+                            foreignKey: 'ShoppingCartId',
+                        },{
+                            model: Order,
+                            foreignKey: 'OrderName',
+                        }],
+                        where: {
+                            ShoppingCartId: shopCartId, status: "cart"
+                        }
+                    })
+                    // res.json(LineItems)
+                    console.log(LineItems);
+                    if (LineItems.length === 0){
+                        // Jika Line Item tidak ditemukan
+                        res.status(500).json("invalid Line Items")
+                    } else {
+                        // Jika Line Item sudah ada
+                        
+                        // init order data
+                        let subtotal = 0
+                        let discount = 0
+                        let tax = 10
+                        let totalquantity = 0
+                        let totaldue = 0
+                        let payment_transaction = ""
+                        
+                        const orderName = "codibook-" + strGenerator(7) + "-" + strGenerator(8)
+                        LineItems.forEach(lite => {
+                            let lineIitemPrice = +lite.Product.price * +lite.quantity
+                            // let lineIitemPrice = (+lite.Product.price * +lite.quantity) * ((100 - +discount) / 100)
+                            subtotal += lineIitemPrice
+                            totalquantity += +lite.quantity
+                            lineIitemPrice = 0
+                        })
+                        if (totalquantity >= 0 && totalquantity < 3){ 
+                            discount = 0
+                        } else if (totalquantity >= 3 && totalquantity < 10){
+                            discount = 5
+                        } else if (totalquantity > 9){
+                            discount = 10
+                        } else {
+                            discount = 0
+                        }
+                        totaldue = (subtotal + (subtotal * tax / 100)) - (subtotal * discount / 100)
+                        payment_transaction = strGenerator(20)
+                        let order = Order.create({
+                            name: orderName, subtotal, discount, tax, totaldue, totalquantity, payment_transaction, city: "", address: "", UserId, status: "open"
+                        })
+                        LineItems.forEach(Lite => {
+                            console.log(Lite.id);
+                            LineItem.update({
+                                status: "checkout", OrderName: orderName
+                            },{
+                                where: {
+                                    id: Lite.id, 
+                                    ShoppingCartId: shopCartId,
+                                    status: "cart"
+                                }
+                            })
+                        })
+
+                        console.log("berhasil menambahkan Line Item");
+                        res.json("cek console log backend")
+                    }
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    }
+
+    // --- fungsi untuk proses order ---
+    static async orderCart(req, res){
+        try {
+            console.log("order cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                let {shopCartId, city, address} = req.body
+                // console.log(shopCartId);
+                let shoppingCart = await ShoppingCart.findOne({
+                    where: {
+                        UserId: UserId, status: "open", id: shopCartId
+                    }
+                })
+                if (shoppingCart === null){
+                    // Jika shopping cart tidak ditemukan
+                    res.status(500).json("invalid shopping cart")
+                } else {
+                    // Jika shopping cart ditemukan
+                    console.log("shopping cart found");
+                    let LineItems = await LineItem.findAll({
+                        include: [{
+                            model: Product,
+                            foreignKey: 'ProductId',
+                        },{
+                            model: ShoppingCart,
+                            foreignKey: 'ShoppingCartId',
+                        },{
+                            model: Order,
+                            foreignKey: 'OrderName',
+                        }],
+                        where: {
+                            ShoppingCartId: shopCartId, status: "checkout"
+                        }
+                    })
+                    
+                    if(order){
+                        if (LineItems.length === 0){
+                            // Jika Line Item tidak ditemukan
+                            res.status(500).json("failed to changing Line Items")
+                        } else {
+                            // Jika Line Item sudah ada
+                            LineItems.forEach(Lite => {
+                                console.log(Lite.id);
+                                LineItem.update({
+                                    status: "ordered",
+                                    OrderName: orderName
+                                },{
+                                    where: {
+                                        id: Lite.id, 
+                                        ShoppingCartId: shopCartId,
+                                        status: "checkout"
+                                    }
+                                })
+                            })
+                            ShoppingCart.update({
+                                status: "closed"
+                            },{
+                                where: {
+                                    id: shopCartId
+                                }
+                            })
+                            console.log("berhasil menambahkan Order");
+                            res.json("cek console log backend")
+                        }
+                    } else {
+                        res.status(500).status("error while creating order..")
+                    }
+                    
+                    
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    }
+    // --- fungsi untuk  ---
+    static async checkoutCartCopy(req, res){
+        try {
+            console.log("checkout cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            // console.log(verifyToken);
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                let {shopCartId} = req.body
+                // console.log(shopCartId);
+                let shoppingCart = await ShoppingCart.findOne({
+                    where: {
+                        UserId: UserId, status: "open", id: shopCartId
+                    }
+                })
+                // console.log(shoppingCart);
+                if (shoppingCart === null){
+                    // Jika shopping cart tidak ditemukan
+                    res.status(500).json("invalid shopping cart")
+                } else {
+                    // Jika shopping cart ditemukan
+                    console.log("line items");
+                    let LineItems = await LineItem.findAll({
                         where: {
                             ShoppingCartId: shopCartId, status: "cart"
                         }
@@ -157,7 +339,7 @@ class ShoppingController {
     }
 
     // --- fungsi untuk proses order ---
-    static async orderCart(req, res){
+    static async orderCartCopy(req, res){
         try {
             console.log("order cart")
             const access_token = req.headers['access-token']
@@ -408,6 +590,95 @@ class ShoppingController {
 
     // --- fungsi untuk user mengambil data checkout ---
     static async getDataCheckout(req, res){
+        try {
+            console.log("order cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                // let shopCartId = req.params.CartId
+                // console.log(shopCartId);
+                let shoppingCart = await ShoppingCart.findOne({
+                    where: {
+                        UserId: UserId, status: "open"
+                    },
+                    include: [{
+                        model: LineItem
+                    }]
+                })
+                //     Line Item
+                let result = await LineItem.findAll({
+                    include: [{
+                        model: Product,
+                        foreignKey: 'ProductId',
+                    },{
+                        model: ShoppingCart,
+                        foreignKey: 'ShoppingCartId',
+                    },{
+                        model: Order,
+                        foreignKey: 'OrderName',
+                    }]
+                })
+                if (shoppingCart === null){
+                    // Jika shopping cart tidak ditemukan
+                    res.status(500).json("invalid shopping cart")
+                } else {
+                    // Jika shopping cart ditemukan
+                    console.log("shopping cart found");
+                    res.json(shoppingCart)
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    }
+    // --- fungsi untuk user mengambil data checkout ---
+    static async getDataOrder(req, res){
+        try {
+            console.log("order cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                let orderName = req.params.orderName
+                // console.log(orderId);
+                
+                //     Line Item
+                let order = await Order.findOne({
+                    include: [{
+                        model: User,
+                        foreignKey: 'UserId',
+                        attributes: {exclude: ['password', 'salt', 'birthdate', 'gender']}
+                    },{
+                        model: LineItem,
+                        sourceKey: 'OrderName'
+                    }],
+                    where: {
+                        UserId, name: orderName, status: "open"
+                    }
+                })
+                if (order === null){
+                    // Jika order tidak ditemukan
+                    res.status(500).json("invalid order")
+                } else {
+                    // Jika order ditemukan
+                    console.log("order found");
+                    res.json(order)
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.json(err)
+        }
+    }
+
+    // --- fungsi untuk user mengambil data pembayaran ---
+    static async getDataPayment(req, res){
         try {
             console.log("order cart")
             const access_token = req.headers['access-token']
