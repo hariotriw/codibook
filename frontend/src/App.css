@@ -1,4 +1,11 @@
-
+/* menghilangkan garis bawah pada link */
 .no-link {
     text-decoration: none;
+}
+
+/* Menghilangkan panah pada input type number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

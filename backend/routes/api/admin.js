@@ -12,6 +12,7 @@ adminRoutes.post("/products/update", AdminController.update)
 adminRoutes.post("/products/delete", AdminController.destroy)
 
 // Orders
+adminRoutes.get("/orders/lists", AdminController.listOrder)
 adminRoutes.post("/orders/confirmOrder", AdminController.confirmOrder)
 
 // adminRoutes.get("/testing", AdminController.test)

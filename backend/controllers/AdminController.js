@@ -243,6 +243,32 @@ class AdminController {
         }
     }
 
+    // --- fungsi untuk merender dan menampilkan semua data orders ---
+    static async listOrder(req, res){
+        try {
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "admin"){
+                // Product All
+                let result = await Order.findAll({
+                    include: [{
+                        model: User,
+                        foreignKey: 'UserId',
+                    },{
+                        model: LineItem
+                    }]
+                })
+                res.json({orders: result})
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            // res.json(err)
+        }
+    }
+
     // --- fungsi untuk admin confirm order ---
     static async confirmOrder(req, res){
         try {

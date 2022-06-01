@@ -50,15 +50,15 @@ const ListProduct = () => {
 
 	return (
 		<div>
-			<div className="page-header">
-				<h3 className="page-title"> Book List </h3>
-				<nav aria-label="button">
-					<div className="button">
+			<div className="row pt-5">
+				<div className="col-12 d-flex">
+					<h3 className="page-title"> Book List </h3>
+					<div className="button d-flex ms-auto me-0 pe-3">
 						<Button variant="outline-primary" href="/admin/addproduct">+ Tambah Buku</Button>
 					</div>
-				</nav>
+				</div>
 			</div>
-			<div className="row">
+			<div className="row pt-4">
 				<div className="col-lg-12 grid-margin stretch-card">
 					<div className="card">
 						<div className="card-body">
