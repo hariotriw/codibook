@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginStatus, getDataUser } from "../../../actions/AuthenticationAction";
-import { adminGetAllOrder } from "../../../actions/AdminAction";
+import { adminGetAllOrder, adminConfirmOrder } from "../../../actions/AdminAction";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
@@ -11,7 +11,8 @@ const ListOrder = () => {
 	const dispatch = useDispatch()
 
 	const { getDataUserResult } = useSelector((state) => state.AuthReducer)
-	const { adminGetAllOrderLoading, adminGetAllOrderResult, adminGetAllOrderError } = useSelector((state) => state.AdminReducer)
+	const { adminGetAllOrderLoading, adminGetAllOrderResult, adminGetAllOrderError,
+		adminConfirmOrderLoading, adminConfirmOrderResult, adminConfirmOrderError } = useSelector((state) => state.AdminReducer)
 
 	useEffect(() => {
 		dispatch(loginStatus())
@@ -33,7 +34,49 @@ const ListOrder = () => {
 		}
 	}, [getDataUserResult])
 
-	// console.log(adminGetAllProductResult);
+	useEffect(() => {
+		if(adminConfirmOrderLoading === true){
+			//swal loading
+			// console.log(adminConfirmOrderLoading);
+			Swal.fire({  
+				icon: 'info', 
+				text: 'Just info!!!'
+				});  
+		}
+
+		if(adminConfirmOrderResult ===true){
+			// swal result
+			// console.log(adminConfirmOrderResult);
+			Swal.fire({  
+				icon: 'success', 
+				text: 'Berhasil mengkonfirmasi pesanan'
+				});  
+			dispatch(adminGetAllOrder())
+		}
+
+		if(adminConfirmOrderError === true){
+			// swal error
+			// console.log(adminConfirmOrderError);
+			Swal.fire({  
+				icon: 'error', 
+				text: 'Error mengkonfirmasi pesanan'
+				});  
+			dispatch(adminGetAllOrder())
+		}
+	}, [adminConfirmOrderResult, dispatch])
+
+	let confirmHandle = (order) => {
+		// console.log('confirm handle');
+		// console.log(order.order.LineItems[0].ShoppingCartId);
+		let confirmData = {
+			shopCartId: order.order.LineItems[0].ShoppingCartId, 
+			UserId: order.order.UserId, 
+			OrderName: order.order.name
+		}
+		dispatch(adminConfirmOrder(confirmData))
+	}
+
+	// console.log(adminGetAllOrderResult);
 
 	// if (loginStatusResult.status === false) {
 	// 	navigate('/login')
@@ -65,6 +108,7 @@ const ListOrder = () => {
 											<th>Kota</th>
 											<th>Alamat</th>
 											<th>Nama Pembeli</th>
+											<th>Barang dibeli</th>
 											<th>Status</th>
 											<th>Action</th>
 										</tr>
@@ -98,6 +142,13 @@ const ListOrder = () => {
 													<td>{order.city}</td>
 													<td>{order.address}</td>
 													<td>{order.User.name}</td>
+													<td><ul>
+														{order.LineItems.map(lite => {
+															return (
+																<li>{lite.Product.name} x{lite.quantity}</li>
+															)
+														})}	
+													</ul></td>
 													{/* open, cancelled, paid, shipping, closed */}
 													<td>
 													{/* <span className="badge bg-danger">pending</span> */}
@@ -119,7 +170,12 @@ const ListOrder = () => {
 														<Link className="no-link" to={`/deleteorder`}>
 															<img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width='5%' className="img-responsive" />
 														</Link> */}
-														<Link className="no-link" to={`/lihatorder`}>
+														{order.status === "paid" ? 
+															<button className="no-link btn btn-sm btn-primary" onClick={() => confirmHandle({order})}>
+																<span>confirm</span>
+															</button> 
+															: 'no action needed'}
+														{/* <Link className="no-link" to={`/lihatorder`}>
 															<span>lihat</span>
 														</Link>
 														/\
@@ -129,7 +185,7 @@ const ListOrder = () => {
 														/\
 														<Link className="no-link" to={`/deleteorder`}>
 															<span>hapus</span>
-														</Link>
+														</Link> */}
 													</td>
 												</tr>
 												)}

@@ -65,20 +65,24 @@ const Navbar = () => {
                                 </> : 
                                 <Link to="#" className='nav-item nav-link active'>Katalog</Link>
                             // <p className='nav-item nav-link'>silahkan refresh page . . .</p>
-                                : getDataUserLoading ? 
-                                <p className='nav-item nav-link'>loading navbar</p> : ''
+                                : 
+                                <Link to="#" className='nav-item nav-link active'>Katalog</Link>
                             }
                             
 
                             
                         </div>
                         <div className='navbar-nav ms-auto'>
-                            {/* ----- Login ----- */}
-                            <Link to="/login" className='nav-item nav-link'>Login</Link>
-
-                            {/* ----- Not Login ----- */}
-                            <button className="btn btn-secondary my-2 my-sm-0 text-white ms-auto me-3" type="button"
-								onClick={() => logoutHandler()}>Logout</button>
+                            
+                            {/* { console.log(loginStatusResult.status)} */}
+                            { loginStatusResult.status ===true ? 
+                            /* ----- Login ----- */
+                                <button className="btn btn-secondary my-2 my-sm-0 text-white ms-auto me-3" type="button"
+                                onClick={() => logoutHandler()}>Logout</button>
+                                : 
+                                /* ----- Not Login ----- */
+                            <Link to="/login" className='nav-item nav-link'>Login</Link>}
+                            
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ const {ShoppingController} = require('../../controllers')
 
 shoppingRoutes.get("/testing", ShoppingController.test)
 // shoppingRoutes.post("/testing", ShoppingController.test)
+shoppingRoutes.get("/katalog/all", ShoppingController.katalogAllProduct)
 shoppingRoutes.get("/checkout", ShoppingController.getDataCheckout)
 shoppingRoutes.get("/order/:orderName", ShoppingController.getDataOrder)
 shoppingRoutes.get("/payment/:trxNumber", ShoppingController.getDataPayment)

@@ -12,7 +12,20 @@ class ShoppingController {
     // --- fungsi untuk  ---
     static async test(req, res){
         try {
-            // res.json('testing')
+            // Product All
+            // let result = await Product.findAll({
+            //     // where: {
+            //     //     strId
+            //     // },
+            //     include: [{
+            //         model: User,
+            //         foreignKey: 'UserId',
+            //     },{
+            //         model: ProductImage
+            //     },{
+            //         model: LineItem
+            //     }]
+            // })
         } catch (err) {
             // res.json(err)
         }
@@ -732,6 +745,35 @@ class ShoppingController {
 
  
 
+    // --- fungsi untuk merender dan menampilkan semua data products ---
+    static async katalogAllProduct(req, res){
+        try {
+            // const access_token = req.headers['access-token']
+            // if(access_token){
+            //     const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            //     const UserId = verifyToken.id
+            //     const role = verifyToken.role
+            //     console.log(UserId);
+            //     console.log(role);
+            // }
+            // Product All
+            let result = await Product.findAll({
+                include: [{
+                    model: ProductImage
+                },{
+                    model: LineItem,
+                    include: [{
+                        model: ShoppingCart,
+                        foreignKey: 'ShoppingCartid',
+                    }]
+                }]
+            })
+            res.json({products: result})
+        } catch (err) {
+            res.json(err)
+        }
+    }
+    
     // --- fungsi untuk merender dan menampilkan semua data products ---
     static async index(req, res){
         try {

@@ -13,6 +13,7 @@ import ListProduct from '../../pages/AdminPages/Products/ListProduct'
 import EditProduct from '../../pages/AdminPages/Products/EditProduct'
 import DeleteProduct from '../../pages/AdminPages/Products/DeleteProduct'
 import ListOrder from '../../pages/AdminPages/Orders/ListOrder'
+import Katalog from '../../pages/Katalog'
 
 const MainContent = () => {
 
@@ -20,7 +21,7 @@ const MainContent = () => {
         <>
             <div className='container-fluid'>
             <Routes>
-                <Route path="/" element={<Dashboard></Dashboard>}></Route>
+                <Route path="/" element={<Katalog></Katalog>}></Route>
                 <Route path="/login" element={<Login></Login>}></Route>
                 <Route path="/register" element={<Register></Register>}></Route>
                 <Route path="/admin/dashboard" element={<Dashboard></Dashboard>}></Route>

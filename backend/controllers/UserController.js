@@ -146,7 +146,16 @@ class UserController {
             let user = await User.findOne({
                 where: {
                     id
-                }
+                },
+                include: [{
+                    model: ShoppingCart,
+                    include: [{
+                        model: LineItem
+                    }]
+                },{
+                    model: Order
+                }]
+
             })
             if(user){
                 res.json(user)
@@ -158,7 +167,7 @@ class UserController {
             
 
         } catch (err) {
-            res.json(err)
+            // res.json(err)
         }
     }
     

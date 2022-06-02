@@ -5,6 +5,7 @@ export const ADMIN_ADD_PRODUCT = "ADMIN_ADD_PRODUCT"
 export const ADMIN_EDIT_PRODUCT = "ADMIN_EDIT_PRODUCT"
 export const ADMIN_GET_PRODUCT = "ADMIN_GET_PRODUCT"
 export const ADMIN_GET_ALL_ORDER = "ADMIN_GET_ALL_ORDER"
+export const ADMIN_CONFIRM_ORDER = "ADMIN_CONFIRM_ORDER"
 
 // export const getDataUser = (user) => {
 export const adminGetAllProduct = () => {
@@ -271,6 +272,59 @@ export const adminGetAllOrder = () => {
                 // gagal get API
                 dispatch({
                     type: ADMIN_GET_ALL_ORDER,
+                    payload: {
+                        loading: false,
+                        data: false,
+                        errorMessage: response.response.data.message
+                    }
+                })
+            })
+
+    }
+
+}
+
+// export const getDataUser = (user) => {
+export const adminConfirmOrder = (data) => {
+    return (dispatch) => {
+
+        // loading
+        dispatch({
+            type: ADMIN_CONFIRM_ORDER,
+            payload: {
+                loading: true,
+                data: false,
+                errorMessage: false
+            }
+        })
+        const access_token = localStorage.getItem('access_token')
+
+        // get API
+        axios({
+            method: 'POST',
+            url: 'http://localhost:3001/api/admins/orders/confirmOrder',
+            timeout: 120000,
+            headers: { 'access-token': access_token},
+            data: data
+        })
+            .then((response) => {
+                // berhasil get API
+                console.log('berhasil mengkonfirmasi pesanan');
+                dispatch({
+                    type: ADMIN_CONFIRM_ORDER,
+                    payload: {
+                        loading: false,
+                        data: true,
+                        errorMessage: false
+                    }
+                })
+            })
+            .catch((response) => {
+                console.log('gagal mengkonfirmasi pesanan');
+                console.log(response);
+                // gagal get API
+                dispatch({
+                    type: ADMIN_CONFIRM_ORDER,
                     payload: {
                         loading: false,
                         data: false,

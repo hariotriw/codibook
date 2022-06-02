@@ -275,7 +275,11 @@ class AdminController {
                         model: User,
                         foreignKey: 'UserId',
                     },{
-                        model: LineItem
+                        model: LineItem,
+                        include: [{
+                            model: Product,
+                            foreignKey: 'ProductId',
+                        }]
                     }]
                 })
                 res.json({orders: result})
@@ -291,9 +295,10 @@ class AdminController {
     static async confirmOrder(req, res){
         try {
             console.log("order cart")
+            console.log(req.body)
             const access_token = req.headers['access-token']
             const verifyToken = jwt.tokenVerifier(access_token, 'secret')
-            const UserId = verifyToken.id
+            // const UserId = verifyToken.id
             const role = verifyToken.role
             if(role === "admin"){
                 let {shopCartId, UserId, OrderName} = req.body
@@ -319,7 +324,7 @@ class AdminController {
                     })
                     if(order[0] === 1){
                         console.log("berhasil mengkonfirmasi Order");
-                        res.json("cek console log backend")
+                        res.status(201).json("cek console log backend")
                     } else {
                         res.status(500).json("error while confirming order..")
                     }
