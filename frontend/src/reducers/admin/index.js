@@ -1,9 +1,21 @@
-import { ADMIN_GET_ALL_PRODUCT,  ADMIN_GET_ALL_ORDER } from "../../actions/AdminAction";
+import { ADMIN_GET_ALL_PRODUCT,  ADMIN_GET_ALL_ORDER, ADMIN_ADD_PRODUCT, ADMIN_EDIT_PRODUCT, ADMIN_GET_PRODUCT } from "../../actions/AdminAction";
 
 const initialState = {
     adminGetAllProductLoading: false,
     adminGetAllProductResult: false,
     adminGetAllProductError: false,
+    
+    adminAddProductLoading: false,
+    adminAddProductResult: false,
+    adminAddProductError: false,
+
+    adminGetProductLoading: false,
+    adminGetProductResult: false,
+    adminGetProductError: false,
+
+    adminEditProductLoading: false,
+    adminEditProductResult: false,
+    adminEditProductError: false,
     
     adminGetAllOrderLoading: false,
     adminGetAllOrderResult: false,
@@ -19,6 +31,27 @@ const AdminReducer = (state = initialState, action) => {
                 adminGetAllProductLoading: action.payload.loading,
                 adminGetAllProductResult: action.payload.data,
                 adminGetAllProductError: action.payload.errorMessage
+            }
+        case ADMIN_ADD_PRODUCT:
+            return {
+                ...state,
+                adminAddProductLoading: action.payload.loading,
+                adminAddProductResult: action.payload.data,
+                adminAddProductError: action.payload.errorMessage
+            }
+        case ADMIN_EDIT_PRODUCT:
+            return {
+                ...state,
+                adminEditProductLoading: action.payload.loading,
+                adminEditProductResult: action.payload.data,
+                adminEditProductError: action.payload.errorMessage
+            }
+        case ADMIN_GET_PRODUCT:
+            return {
+                ...state,
+                adminGetProductLoading: action.payload.loading,
+                adminGetProductResult: action.payload.data,
+                adminGetProductError: action.payload.errorMessage
             }
         case ADMIN_GET_ALL_ORDER:
             return {

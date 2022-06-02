@@ -110,11 +110,11 @@ const ListProduct = () => {
 														<Link className="no-link" to={`/deleteproduct`}>
 															<img src={require('../../../assets/images/garbage-bin-10420.png')} alt='Responsive image' width='5%' className="img-responsive" />
 														</Link> */}
-														<Link className="no-link" to={`/editproduct`}>
+														<Link className="no-link" to={`/admin/editproduct/${product.id}`}>
 															<span>edit</span>
 														</Link>
 														|
-														<Link className="no-link" to={`/deleteproduct`}>
+														<Link className="no-link" to={`/admin/deleteproduct`}>
 															<span>hapus</span>
 														</Link>
 													</td>

@@ -32,7 +32,7 @@ export const getDataUser = () => {
         })
             .then((response) => {
                 // berhasil get API
-                console.log('berhasil dapat data');
+                // console.log('berhasil dapat data');
                 dispatch({
                     type: GET_DATA_USER,
                     payload: {
@@ -43,8 +43,8 @@ export const getDataUser = () => {
                 })
             })
             .catch((response) => {
-                console.log('gagal dapat data');
-                console.log(response);
+                // console.log('gagal dapat data');
+                // console.log(response);
                 // gagal get API
                 dispatch({
                     type: GET_DATA_USER,

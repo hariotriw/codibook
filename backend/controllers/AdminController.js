@@ -55,8 +55,18 @@ class AdminController {
             const verifyToken = jwt.tokenVerifier(access_token, 'secret')
             const UserId = verifyToken.id
             const role = verifyToken.role
+            // console.log(req.body);
             if(role === "admin"){
-                let { name, desc, stock, expire, weight, category, brand, condition} = req.body;
+                // let { name, desc, price, stock, expire, weight, category, brand, condition} = req.body;
+                let name = req.body.name || ' '
+                let desc = req.body.desc || ' '
+                let price = req.body.price || 0
+                let stock = req.body.stock || 0
+                let expire = req.body.expire || null
+                let weight = req.body.weight || 0
+                let category = req.body.category || 'no-category'
+                let brand = req.body.brand || ' '
+                let condition = req.body.condition || ' '
                 const total_sold = 0
                 const rating = 0
                 const views = 0
@@ -65,6 +75,7 @@ class AdminController {
                 let product = await Product.create({
                     name, 
                     desc, 
+                    price,
                     stock, 
                     expire, 
                     weight, 
@@ -78,18 +89,18 @@ class AdminController {
                 })
     
                 // aray dari gambar yang ditambahin [NOT FINISHED]
-                let arrImgInput = []
-                let arrImg = []
-                arrImg.forEach((image, i) => {
-                    let id = product.id
-                    arrImg[i] = ProductImage.create({
-                        filename, filesize, filetype, primary, ProductId:id
-                    })
+                // let arrImgInput = []
+                // let arrImg = []
+                // arrImg.forEach((image, i) => {
+                //     let id = product.id
+                //     arrImg[i] = ProductImage.create({
+                //         filename, filesize, filetype, primary, ProductId:id
+                //     })
     
-                })
-    
-                // res.json(product)
-                res.json('berhasil menambahkan product')
+                // })
+
+                res.status(201).json('berhasil menambahkan product')
+
             } else {
                 res.status(403).json("You don't have access to use this features..")
             }
@@ -114,14 +125,14 @@ class AdminController {
                     where: {
                         id
                     },
-                    include: [{
-                        model: User,
-                        foreignKey: 'UserId',
-                    },{
-                        model: ProductImage
-                    },{
-                        model: LineItem
-                    }]
+                    // include: [{
+                    //     model: User,
+                    //     foreignKey: 'UserId',
+                    // },{
+                    //     model: ProductImage
+                    // },{
+                    //     model: LineItem
+                    // }]
                 })
                 res.json(product)
                 // res.json(user)
@@ -138,6 +149,8 @@ class AdminController {
     // --- fungsi untuk mengelola form edit user di back-end ---
     static async edit(req, res){
         try {
+            console.log("ini edit product");
+            // console.log(req.params);
             const access_token = req.headers['access-token']
             const verifyToken = jwt.tokenVerifier(access_token, 'secret')
             const UserId = verifyToken.id
@@ -149,15 +162,19 @@ class AdminController {
                     where: {
                         id
                     },
+                    // include: [{
+                    //     model: User,
+                    //     foreignKey: 'UserId',
+                    // },{
+                    //     model: ProductImage
+                    // },{
+                    //     model: LineItem
+                    // }]
                     include: [{
-                        model: User,
-                        foreignKey: 'UserId',
-                    },{
                         model: ProductImage
-                    },{
-                        model: LineItem
                     }]
                 })
+                // console.log(product)
                 res.status(201).json(product)
                 // res.json('berhasil mengubah user')
             } else {
@@ -176,19 +193,20 @@ class AdminController {
             const verifyToken = jwt.tokenVerifier(access_token, 'secret')
             const UserId = verifyToken.id
             const role = verifyToken.role
+            console.log(req.body);
             if(role === "admin") {
-                let { id, name, desc, stock, expire, weight, category, brand, condition} = req.body;
+                let { id, name, desc, price, stock, expire, weight, category, brand, condition} = req.body;
 
                 let product = await Product.update({
                     name: name, 
                     desc: desc, 
+                    price: +price,
                     stock: +stock, 
                     expire: expire, 
                     weight: +weight, 
                     category: category, 
                     brand: brand, 
-                    condition: condition, 
-                    UserId: UserId
+                    condition: condition
                 }, {
                     where: {
                         id: id
@@ -197,23 +215,23 @@ class AdminController {
 
                 // aray dari gambar yang ditambahin [NOT FINISHED]
                 // id product image ?
-                let arrImgInput = []
-                let arrImg = []
-                arrImg.forEach((image, i) => {
-                    let id = product.id
-                    arrImg[i] = ProductImage.update({
-                        filename, 
-                        filesize, 
-                        filetype, 
-                        primary, 
-                        ProductId:id
-                    }, {
-                        where: {
-                            id:id
-                        }
-                    })
+                // let arrImgInput = []
+                // let arrImg = []
+                // arrImg.forEach((image, i) => {
+                //     let id = product.id
+                //     arrImg[i] = ProductImage.update({
+                //         filename, 
+                //         filesize, 
+                //         filetype, 
+                //         primary, 
+                //         ProductId:id
+                //     }, {
+                //         where: {
+                //             id:id
+                //         }
+                //     })
 
-                })
+                // })
 
                 res.status(201).json("product successfully changed..")
             } else {

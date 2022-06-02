@@ -27,7 +27,8 @@ const MainContent = () => {
                 <Route path="/admin/profile" element={<Profile></Profile>}></Route>
                 <Route path="/admin/addproduct" element={<AddProduct></AddProduct>}></Route>
                 <Route path="/admin/listproduct" element={<ListProduct></ListProduct>}></Route>
-                <Route path="/admin/editproduct" element={<EditProduct></EditProduct>}></Route>
+                <Route path="/admin/editproduct/:id" element={<EditProduct></EditProduct>}></Route>
+                {/* <Route path="/admin/editproduct" element={<EditProduct></EditProduct>}></Route> */}
                 <Route path="/admin/deleteproduct" element={<DeleteProduct></DeleteProduct>}></Route>
                 <Route path="/admin/listorder" element={<ListOrder></ListOrder>}></Route>
             </Routes>
