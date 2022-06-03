@@ -6,6 +6,13 @@ import EditProduct from './pages/AdminPages/Products/EditProduct'
 import DeleteProduct from './pages/AdminPages/Products/DeleteProduct'
 import ListOrder from './pages/AdminPages/Orders/ListOrder'
 
+import Utama from './pages/Utama.js'
+import Profile from './pages/UserPages/Profile.js'
+import Katalog from './pages/UserPages/Katalog.js'
+import ListCheckout from './pages/UserPages/ListCheckout.js'
+import ListKeranjang from './pages/UserPages/ListKeranjang.js'
+
+import Login from './pages/Login'
 function App() {
   return (
     <div className="App">
@@ -17,6 +24,12 @@ function App() {
             <DeleteProduct />
           </AddProduct>
           <ListOrder />
+          <Utama />
+          <Profile />
+          <Katalog />
+          <ListCheckout />
+          <ListKeranjang />
+          <Login />
         </MainContent>
         <Footer />
     </div>
