@@ -12,7 +12,20 @@ class ShoppingController {
     // --- fungsi untuk  ---
     static async test(req, res){
         try {
-            // res.json('testing')
+            // Product All
+            // let result = await Product.findAll({
+            //     // where: {
+            //     //     strId
+            //     // },
+            //     include: [{
+            //         model: User,
+            //         foreignKey: 'UserId',
+            //     },{
+            //         model: ProductImage
+            //     },{
+            //         model: LineItem
+            //     }]
+            // })
         } catch (err) {
             // res.json(err)
         }
@@ -153,6 +166,7 @@ class ShoppingController {
                         let payment_transaction = ""
                         
                         const orderName = "codibook-" + strGenerator(7) + "-" + strGenerator(8)
+                        console.log(orderName)
                         LineItems.forEach(lite => {
                             let lineIitemPrice = +lite.Product.price * +lite.quantity
                             // let lineIitemPrice = (+lite.Product.price * +lite.quantity) * ((100 - +discount) / 100)
@@ -170,7 +184,8 @@ class ShoppingController {
                             discount = 0
                         }
                         totaldue = (subtotal + (subtotal * tax / 100)) - (subtotal * discount / 100)
-                        payment_transaction = strGenerator(20)
+                        console.log(totaldue)
+                        // payment_transaction = strGenerator(20)
                         let order = Order.create({
                             name: orderName, subtotal, discount, tax, totaldue, totalquantity, payment_transaction, city: "", address: "", UserId, status: "open"
                         })
@@ -185,6 +200,14 @@ class ShoppingController {
                                     status: "cart"
                                 }
                             })
+                        })
+
+                        ShoppingCart.update({
+                            status: "closed"
+                            },{
+                            where: {
+                                UserId: UserId, status: "open", id: shopCartId
+                            }
                         })
 
                         console.log("berhasil menambahkan Line Item");
@@ -209,10 +232,11 @@ class ShoppingController {
             const role = verifyToken.role
             if(role === "user"){
                 let {shopCartId, city, address, OrderName} = req.body
-                // console.log(shopCartId);
+                console.log(req.body);
+                console.log(shopCartId);
                 let shoppingCart = await ShoppingCart.findOne({
                     where: {
-                        UserId: UserId, status: "open", id: shopCartId
+                        UserId: UserId, id: shopCartId
                     }
                 })
                 if (shoppingCart === null){
@@ -603,6 +627,60 @@ class ShoppingController {
     // --- fungsi untuk user mengambil data checkout ---
     static async getDataCheckout(req, res){
         try {
+            console.log("chekout cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                // let shopCartId = req.params.CartId
+                // console.log(shopCartId);
+                let shoppingCart = await ShoppingCart.findAll({
+                    where: {
+                        UserId: UserId, status: "open"
+                    },
+                    include: [{
+                        model: LineItem,
+                        include: [{
+                            model: Product,
+                            foreignKey: 'ProductId',
+                        },{
+                            model: Order,
+                            foreignKey: 'OrderName',
+                        }]
+                    }]
+                })
+                //     Line Item
+                // let result = await LineItem.findAll({
+                //     include: [{
+                //         model: Product,
+                //         foreignKey: 'ProductId',
+                //     },{
+                //         model: ShoppingCart,
+                //         foreignKey: 'ShoppingCartId',
+                //     },{
+                //         model: Order,
+                //         foreignKey: 'OrderName',
+                //     }]
+                // })
+                if (shoppingCart === null){
+                    // Jika shopping cart tidak ditemukan
+                    res.status(500).json("invalid shopping cart")
+                } else {
+                    // Jika shopping cart ditemukan
+                    console.log("shopping cart found");
+                    res.json(shoppingCart)
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.status(403).json(err)
+        }
+    }
+    // --- fungsi untuk user mengambil data checkout ---
+    static async getDataCheckoutCopy(req, res){
+        try {
             console.log("order cart")
             const access_token = req.headers['access-token']
             const verifyToken = jwt.tokenVerifier(access_token, 'secret')
@@ -656,22 +734,23 @@ class ShoppingController {
             const UserId = verifyToken.id
             const role = verifyToken.role
             if(role === "user"){
-                let orderName = req.params.orderName
+                // let orderName = req.params.orderName
                 // console.log(orderId);
                 
                 //     Line Item
-                let order = await Order.findOne({
+                let order = await Order.findAll({
                     include: [{
-                        model: User,
-                        foreignKey: 'UserId',
-                        attributes: {exclude: ['password', 'salt', 'birthdate', 'gender']}
-                    },{
                         model: LineItem,
-                        sourceKey: 'OrderName'
+                        sourceKey: 'OrderName',
+                        include: [{
+                            model: Product,
+                            foreignKey: 'ProductId',
+                        }]
                     }],
                     where: {
-                        UserId, name: orderName, status: "open"
-                    }
+                        UserId
+                    },
+                        order: [['updatedAt', 'DESC']]
                 })
                 if (order === null){
                     // Jika order tidak ditemukan
@@ -732,6 +811,35 @@ class ShoppingController {
 
  
 
+    // --- fungsi untuk merender dan menampilkan semua data products ---
+    static async katalogAllProduct(req, res){
+        try {
+            // const access_token = req.headers['access-token']
+            // if(access_token){
+            //     const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            //     const UserId = verifyToken.id
+            //     const role = verifyToken.role
+            //     console.log(UserId);
+            //     console.log(role);
+            // }
+            // Product All
+            let result = await Product.findAll({
+                include: [{
+                    model: ProductImage
+                },{
+                    model: LineItem,
+                    include: [{
+                        model: ShoppingCart,
+                        foreignKey: 'ShoppingCartid',
+                    }]
+                }]
+            })
+            res.json({products: result})
+        } catch (err) {
+            res.json(err)
+        }
+    }
+    
     // --- fungsi untuk merender dan menampilkan semua data products ---
     static async index(req, res){
         try {

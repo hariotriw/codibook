@@ -141,19 +141,33 @@ class UserController {
             // const data = jwt.tokenVerifier(access_token)
             let verifyToken = jwt.tokenVerifier(access_token, 'secret')
             // console.log(verifyToken.uuid)
-            let uuid = verifyToken.uuid
+            let id = verifyToken.id
             // console.log(uuid)
             let user = await User.findOne({
                 where: {
-                    uuid
-                }
+                    id
+                },
+                include: [{
+                    model: ShoppingCart,
+                    include: [{
+                        model: LineItem
+                    }]
+                },{
+                    model: Order
+                }]
+
             })
+            if(user){
+                res.json(user)
+            } else {
+                res.json("User not found")
+            }
             // res.json(req.headers['access-token'])
             // console.log(user)
-            res.json(user)
+            
 
         } catch (err) {
-            res.json(err)
+            // res.json(err)
         }
     }
     
