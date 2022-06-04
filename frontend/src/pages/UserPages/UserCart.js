@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginStatus, getDataUser } from "../../actions/AuthenticationAction";
-import { getUserCart, checkoutCart } from "../../actions/UserAction";
+import { getUserCart, checkoutCart, orderCart } from "../../actions/UserAction";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import { Button } from "react-bootstrap";
@@ -52,7 +52,7 @@ const UserCart = () => {
     useEffect(() => {
         // console.log(checkoutCartResult);
         // console.log('checkout la la la');
-        
+
 		// if(checkoutCartLoading === true){
 		// 	//swal loading
 		// 	// console.log(adminConfirmOrderLoading);
@@ -92,7 +92,7 @@ const UserCart = () => {
                 </div>
                 <div className="row p-0 m-0 mb-4">
                     <div className="accordion" id="accordionExample">
-                        { getUserCartResult ? getUserCartResult.map((cart, i) => {
+                        { getUserCartResult ? getUserCartResult.length !== 0 ? getUserCartResult.map((cart, i) => {
                             let totalDue = 0
                             return (
                                     <div className="accordion-item mb-3" key={cart.id}>
@@ -172,7 +172,7 @@ const UserCart = () => {
                                         </div>
                                     </div>
                                 )
-                        })
+                        }) : 'cart kosong'
                             : getUserCartLoading ?
                                 <>
                                 <div className="accordion-item mb-3">

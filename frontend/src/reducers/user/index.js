@@ -1,4 +1,4 @@
-import { KATALOG_ALL_PRODUCT, CHECKOUT_CART, ADD_ITEM_TO_CART, GET_USER_CART } from "../../actions/UserAction";
+import { KATALOG_ALL_PRODUCT, CHECKOUT_CART, ORDER_CART, ADD_ITEM_TO_CART, GET_USER_CART, GET_USER_ORDER, PAY_ORDER } from "../../actions/UserAction";
 
 const initialState = {
     katalogAllProductLoading: false,
@@ -9,6 +9,14 @@ const initialState = {
     checkoutCartResult: false,
     checkoutCartError: false,
 
+    orderCartLoading: false,
+    orderCartResult: false,
+    orderCartError: false,
+
+    payOrderLoading: false,
+    payOrderResult: false,
+    payOrderError: false,
+
     addItemToCartLoading: false,
     addItemToCartResult: false,
     addItemToCartError: false,
@@ -16,6 +24,10 @@ const initialState = {
     getUserCartLoading: false,
     getUserCartResult: false,
     getUserCartError: false,
+
+    getUserOrderLoading: false,
+    getUserOrderResult: false,
+    getUserOrderError: false,
     
 }
 
@@ -35,6 +47,20 @@ const UserReducer = (state = initialState, action) => {
                 checkoutCartResult: action.payload.data,
                 checkoutCartError: action.payload.errorMessage
             }
+        case ORDER_CART:
+            return {
+                ...state,
+                orderCartLoading: action.payload.loading,
+                orderCartResult: action.payload.data,
+                orderCartError: action.payload.errorMessage
+            }
+        case PAY_ORDER:
+            return {
+                ...state,
+                payOrderLoading: action.payload.loading,
+                payOrderResult: action.payload.data,
+                payOrderError: action.payload.errorMessage
+            }
         case ADD_ITEM_TO_CART:
             return {
                 ...state,
@@ -48,6 +74,13 @@ const UserReducer = (state = initialState, action) => {
                 getUserCartLoading: action.payload.loading,
                 getUserCartResult: action.payload.data,
                 getUserCartError: action.payload.errorMessage
+            }
+        case GET_USER_ORDER:
+            return {
+                ...state,
+                getUserOrderLoading: action.payload.loading,
+                getUserOrderResult: action.payload.data,
+                getUserOrderError: action.payload.errorMessage
             }
         default:
             return state;

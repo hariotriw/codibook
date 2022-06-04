@@ -166,6 +166,7 @@ class ShoppingController {
                         let payment_transaction = ""
                         
                         const orderName = "codibook-" + strGenerator(7) + "-" + strGenerator(8)
+                        console.log(orderName)
                         LineItems.forEach(lite => {
                             let lineIitemPrice = +lite.Product.price * +lite.quantity
                             // let lineIitemPrice = (+lite.Product.price * +lite.quantity) * ((100 - +discount) / 100)
@@ -183,7 +184,8 @@ class ShoppingController {
                             discount = 0
                         }
                         totaldue = (subtotal + (subtotal * tax / 100)) - (subtotal * discount / 100)
-                        payment_transaction = strGenerator(20)
+                        console.log(totaldue)
+                        // payment_transaction = strGenerator(20)
                         let order = Order.create({
                             name: orderName, subtotal, discount, tax, totaldue, totalquantity, payment_transaction, city: "", address: "", UserId, status: "open"
                         })
@@ -230,10 +232,11 @@ class ShoppingController {
             const role = verifyToken.role
             if(role === "user"){
                 let {shopCartId, city, address, OrderName} = req.body
-                // console.log(shopCartId);
+                console.log(req.body);
+                console.log(shopCartId);
                 let shoppingCart = await ShoppingCart.findOne({
                     where: {
-                        UserId: UserId, status: "open", id: shopCartId
+                        UserId: UserId, id: shopCartId
                     }
                 })
                 if (shoppingCart === null){
@@ -731,22 +734,23 @@ class ShoppingController {
             const UserId = verifyToken.id
             const role = verifyToken.role
             if(role === "user"){
-                let orderName = req.params.orderName
+                // let orderName = req.params.orderName
                 // console.log(orderId);
                 
                 //     Line Item
-                let order = await Order.findOne({
+                let order = await Order.findAll({
                     include: [{
-                        model: User,
-                        foreignKey: 'UserId',
-                        attributes: {exclude: ['password', 'salt', 'birthdate', 'gender']}
-                    },{
                         model: LineItem,
-                        sourceKey: 'OrderName'
+                        sourceKey: 'OrderName',
+                        include: [{
+                            model: Product,
+                            foreignKey: 'ProductId',
+                        }]
                     }],
                     where: {
-                        UserId, name: orderName, status: "open"
-                    }
+                        UserId
+                    },
+                        order: [['updatedAt', 'DESC']]
                 })
                 if (order === null){
                     // Jika order tidak ditemukan
