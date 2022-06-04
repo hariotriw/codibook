@@ -19,7 +19,9 @@ const UserOrder = () => {
 	const { adminGetAllProductLoading, adminGetAllProductResult, adminGetAllProductError } = useSelector((state) => state.AdminReducer)
 	const { getUserOrderLoading, getUserOrderResult, getUserOrderError,
         orderCartLoading, orderCartResult, orderCartError,
-        payOrderLoading, payOrderResult, payOrderError} = useSelector((state) => state.UserReducer)
+        payOrderLoading, payOrderResult, payOrderError,
+        finishOrderLoading, finishOrderResult, finishOrderError,
+        cancelOrderLoading, cancelOrderResult, cancelOrderError} = useSelector((state) => state.UserReducer)
 
 	useEffect(() => {
 		dispatch(loginStatus())
@@ -91,6 +93,54 @@ const UserOrder = () => {
 			dispatch(getUserOrder())
 		}
 	}, [payOrderResult, dispatch])
+
+    useEffect(() => {
+        // console.log(orderCartResult);
+
+		if(finishOrderResult === true){
+			// swal result
+			Swal.fire({  
+				icon: 'success', 
+				text: 'Berhasil menyelesaikan transaksi'
+				});  
+            window.location.reload()
+			// dispatch(getUserOrder())
+		}
+
+		if(finishOrderError === true){
+			// swal error
+			// console.log(adminConfirmOrderError);
+			Swal.fire({  
+				icon: 'error', 
+				text: 'Gagal menyelesaikan transaksi'
+				});  
+			dispatch(getUserOrder())
+		}
+	}, [finishOrderResult, dispatch])
+
+    useEffect(() => {
+        // console.log(orderCartResult);
+
+		if(cancelOrderResult === true){
+			// swal result
+			Swal.fire({  
+				icon: 'success', 
+				text: 'Berhasil membatalkan order'
+				});  
+            window.location.reload()
+			// dispatch(getUserOrder())
+		}
+
+		if(cancelOrderError === true){
+			// swal error
+			// console.log(adminConfirmOrderError);
+			Swal.fire({  
+				icon: 'error', 
+				text: 'Gagal membatalkan order'
+				});  
+			dispatch(getUserOrder())
+		}
+	}, [cancelOrderResult, dispatch])
 
 	return (
         <div className="row pt-5 justify-content-center">

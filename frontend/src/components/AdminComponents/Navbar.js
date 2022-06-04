@@ -43,20 +43,19 @@ const Navbar = () => {
                                     {/* ----- User ----- */}
                                     <Link to="/my-cart" className='nav-item nav-link active'>My Cart</Link>
                                     <Link to="/my-order" className='nav-item nav-link active'>My Order</Link>
-                                    <Link to="/my-account" className='nav-item nav-link active'>My Account</Link>
-
-                                    {/* sementara untuk testing */}
-                                    <Link to="/pay-order" className='nav-item nav-link active'>Pay Order</Link>
+                                    {/* <Link to="/my-account" className='nav-item nav-link active'>My Account</Link> */}
+                                    <Link to="/profile" className='nav-item nav-link active'>Profile</Link>
                                     {/* ----- end User ----- */}
                                 </>  : 
                                 getDataUserResult.role === "admin" ?
                                 <>
                                     {/* ----- General ----- */}
                                     <Link to="/" className='nav-item nav-link active'>Katalog</Link>
+                                    <Link to="/profile" className='nav-item nav-link active'>Profile</Link>
                                     {/* ----- end General ----- */}
                                     {/* ----- Admin ----- */}
                                     <Link to="/admin/dashboard" className='nav-item nav-link active'>Dashboard</Link>
-                                    <Link to="/admin/profile" className='nav-item nav-link active'>Profile</Link>
+                                    {/* <Link to="/admin/profile" className='nav-item nav-link active'>Profile</Link> */}
                                     <li class="nav-item dropdown">
                                         <a class="nav-link active dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Seller Management</a>
                                         <ul class="dropdown-menu">
@@ -66,10 +65,14 @@ const Navbar = () => {
                                     </li>
                                     {/* ----- end Admin ----- */}
                                 </> : 
+                                <>
                                 <Link to="/" className='nav-item nav-link active'>Katalog</Link>
+                                </>
                             // <p className='nav-item nav-link'>silahkan refresh page . . .</p>
                                 : 
+                                <>
                                 <Link to="/" className='nav-item nav-link active'>Katalog</Link>
+                                </>
                             }
                             
 

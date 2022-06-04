@@ -25,10 +25,13 @@ const Profile = () => {
 			} else if(getDataUserResult.role === "user") {
 				// nanti ubah ke navigate katalog
 				// navigate('/katalog')
-				navigate('/')
+				// navigate('/')
 			} else {
-				navigate('/login')
+				// navigate('/login')
 			}
+		} else {
+			// navigate('/login')
+
 		}
 	}, [getDataUserResult])
 

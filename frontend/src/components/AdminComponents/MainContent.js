@@ -26,10 +26,10 @@ const MainContent = () => {
             <Routes>
                 <Route path="/login" element={<Login></Login>}></Route>
                 <Route path="/register" element={<Register></Register>}></Route>
+                <Route path="/profile" element={<Profile></Profile>}></Route>
 
                 {/* --- Admin --- */}
                 <Route path="/admin/dashboard" element={<Dashboard></Dashboard>}></Route>
-                <Route path="/admin/profile" element={<Profile></Profile>}></Route>
                 <Route path="/admin/addproduct" element={<AddProduct></AddProduct>}></Route>
                 <Route path="/admin/listproduct" element={<ListProduct></ListProduct>}></Route>
                 <Route path="/admin/editproduct/:id" element={<EditProduct></EditProduct>}></Route>

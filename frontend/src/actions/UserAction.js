@@ -5,6 +5,8 @@ export const ADD_ITEM_TO_CART = "ADD_ITEM_TO_CART"
 export const CHECKOUT_CART = "CHECKOUT_CART"
 export const ORDER_CART = "ORDER_CART"
 export const PAY_ORDER = "PAY_ORDER"
+export const FINISH_ORDER = "FINISH_ORDER"
+export const CANCEL_ORDER = "CANCEL_ORDER"
 export const GET_USER_CART = "GET_USER_CART"
 export const GET_USER_ORDER = "GET_USER_ORDER"
 
@@ -210,6 +212,114 @@ export const payOrder = (data) => {
                 // gagal get API
                 dispatch({
                     type: PAY_ORDER,
+                    payload: {
+                        loading: false,
+                        data: false,
+                        errorMessage: true
+                    }
+                })
+            })
+
+    }
+
+}
+
+// export const getDataUser = (user) => {
+export const finishOrder = (data) => {
+    return (dispatch) => {
+
+        // loading
+        dispatch({
+            type: FINISH_ORDER,
+            payload: {
+                loading: true,
+                data: false,
+                errorMessage: false
+            }
+        })
+        const access_token = localStorage.getItem('access_token')
+        // console.log(data);
+        // get API
+        axios({
+            method: 'POST',
+            url: 'http://localhost:3001/api/shop/finishOrder',
+            timeout: 120000,
+            headers: { 'access-token': access_token},
+            data: data
+        })
+            .then((response) => {
+                // berhasil get API
+                console.log(response);
+                console.log('berhasil dapat data');
+                dispatch({
+                    type: FINISH_ORDER,
+                    payload: {
+                        loading: false,
+                        data: true,
+                        errorMessage: false
+                    }
+                })
+            })
+            .catch((response) => {
+                console.log('gagal dapat data');
+                console.log(response);
+                // gagal get API
+                dispatch({
+                    type: FINISH_ORDER,
+                    payload: {
+                        loading: false,
+                        data: false,
+                        errorMessage: true
+                    }
+                })
+            })
+
+    }
+
+}
+
+// export const getDataUser = (user) => {
+export const cancelOrder = (data) => {
+    return (dispatch) => {
+
+        // loading
+        dispatch({
+            type: CANCEL_ORDER,
+            payload: {
+                loading: true,
+                data: false,
+                errorMessage: false
+            }
+        })
+        const access_token = localStorage.getItem('access_token')
+        // console.log(data);
+        // get API
+        axios({
+            method: 'POST',
+            url: 'http://localhost:3001/api/shop/cancelOrder',
+            timeout: 120000,
+            headers: { 'access-token': access_token},
+            data: data
+        })
+            .then((response) => {
+                // berhasil get API
+                console.log(response);
+                console.log('berhasil dapat data');
+                dispatch({
+                    type: CANCEL_ORDER,
+                    payload: {
+                        loading: false,
+                        data: true,
+                        errorMessage: false
+                    }
+                })
+            })
+            .catch((response) => {
+                console.log('gagal dapat data');
+                console.log(response);
+                // gagal get API
+                dispatch({
+                    type: CANCEL_ORDER,
                     payload: {
                         loading: false,
                         data: false,

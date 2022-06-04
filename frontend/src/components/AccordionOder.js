@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginStatus, getDataUser } from "../actions/AuthenticationAction";
-import { getUserOrder, orderCart, payOrder } from "../actions/UserAction";
+import { getUserOrder, orderCart, payOrder, finishOrder, cancelOrder } from "../actions/UserAction";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import { Button, Form } from "react-bootstrap";
@@ -42,6 +42,28 @@ const AccordionOrder = ({ order, i }) => {
 		}
         console.log(payOrderData);
 		dispatch(payOrder(payOrderData))
+	}
+
+    let finishOrderHandle = ({ order}) => {
+		// console.log('checkout handle'); 
+        // shopCartId, OrderName
+        // console.log(order);
+		let finishOrderData = {
+            shopCartId: order.LineItems[0].ShoppingCartId, OrderName: order.name
+		}
+        console.log(finishOrderData);
+		dispatch(finishOrder(finishOrderData))
+	}
+
+    let cancelOrderHandle = ({ order}) => {
+		// console.log('checkout handle'); 
+        // shopCartId, OrderName
+        // console.log(order);
+		let cancelOrderData = {
+            shopCartId: order.LineItems[0].ShoppingCartId, OrderName: order.name
+		}
+        console.log(cancelOrderData);
+		dispatch(cancelOrder(cancelOrderData))
 	}
 
     return (
@@ -167,9 +189,19 @@ const AccordionOrder = ({ order, i }) => {
                             // <div className="d-flex">
                             //     <Button className="d-flex ms-auto me-1 px-5" onClick={() => orderHandle({order})}>Pay Order</Button>
                             // </div> :
-                            <span className="badge bg-secondary">Order Status: Order has been paid, wating admin to shipping the package.</span> :
+                            <>
+                            <span className="badge bg-secondary">Order Status: Order has been paid, wating admin to shipping the package.</span>
+                            <div className="d-flex mt-3">
+                                <Button className="d-flex btn-danger ms-auto me-1 px-5" onClick={() => cancelOrderHandle({order})}>Cancel Order</Button>
+                            </div>
+                            </> :
                                 order.status === "shipping" ?
-                                <span className="badge bg-info">Order Status: Order is being shipped</span>:
+                                <>
+                                <span className="badge bg-info">Order Status: Order is being shipped</span>
+                                <div className="d-flex mt-3">
+                                    <Button className="d-flex ms-auto me-1 px-5 btn-success" onClick={() => finishOrderHandle({order})}>Finish Transaction</Button>
+                                </div>
+                                </> :
                                     order.status === "closed" ?
                                     <>
                                     <div className="ms-5">

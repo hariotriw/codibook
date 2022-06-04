@@ -1,4 +1,4 @@
-import { KATALOG_ALL_PRODUCT, CHECKOUT_CART, ORDER_CART, ADD_ITEM_TO_CART, GET_USER_CART, GET_USER_ORDER, PAY_ORDER } from "../../actions/UserAction";
+import { KATALOG_ALL_PRODUCT, CHECKOUT_CART, ORDER_CART, ADD_ITEM_TO_CART, GET_USER_CART, GET_USER_ORDER, PAY_ORDER, FINISH_ORDER, CANCEL_ORDER } from "../../actions/UserAction";
 
 const initialState = {
     katalogAllProductLoading: false,
@@ -16,6 +16,14 @@ const initialState = {
     payOrderLoading: false,
     payOrderResult: false,
     payOrderError: false,
+
+    finishOrderLoading: false,
+    finishOrderResult: false,
+    finishOrderError: false,
+
+    cancelOrderLoading: false,
+    cancelOrderResult: false,
+    cancelOrderError: false,
 
     addItemToCartLoading: false,
     addItemToCartResult: false,
@@ -60,6 +68,20 @@ const UserReducer = (state = initialState, action) => {
                 payOrderLoading: action.payload.loading,
                 payOrderResult: action.payload.data,
                 payOrderError: action.payload.errorMessage
+            }
+        case FINISH_ORDER:
+            return {
+                ...state,
+                finishOrderLoading: action.payload.loading,
+                finishOrderResult: action.payload.data,
+                finishOrderError: action.payload.errorMessage
+            }
+        case CANCEL_ORDER:
+            return {
+                ...state,
+                cancelOrderLoading: action.payload.loading,
+                cancelOrderResult: action.payload.data,
+                cancelOrderError: action.payload.errorMessage
             }
         case ADD_ITEM_TO_CART:
             return {
