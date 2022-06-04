@@ -77,7 +77,7 @@ const ProductLogin = ({ product, newArr, user, loginStatusResult }) => {
                 {loginStatusResult ? loginStatusResult.status === true ?
                     newArr.includes(product.id) ?
                         <div className="card-footer p-0 mt-2 mx-0 d-flex">
-                            <Button className="btn btn-danger w-100"><i class="bi bi-cart-check-fill"></i> <b>Added to cart</b></Button>
+                            <Button className="btn btn-danger w-100"><i className="bi bi-cart-check-fill"></i> <b>Added to cart</b></Button>
                         </div>
                         :
                         <div className="card-footer p-0 mt-2 mx-0 d-flex">

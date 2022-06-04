@@ -1,13 +1,21 @@
-import { KATALOG_ALL_PRODUCT, ADD_ITEM_TO_CART } from "../../actions/UserAction";
+import { KATALOG_ALL_PRODUCT, CHECKOUT_CART, ADD_ITEM_TO_CART, GET_USER_CART } from "../../actions/UserAction";
 
 const initialState = {
     katalogAllProductLoading: false,
     katalogAllProductResult: false,
     katalogAllProductError: false,
 
+    checkoutCartLoading: false,
+    checkoutCartResult: false,
+    checkoutCartError: false,
+
     addItemToCartLoading: false,
     addItemToCartResult: false,
     addItemToCartError: false,
+
+    getUserCartLoading: false,
+    getUserCartResult: false,
+    getUserCartError: false,
     
 }
 
@@ -20,12 +28,26 @@ const UserReducer = (state = initialState, action) => {
                 katalogAllProductResult: action.payload.data,
                 katalogAllProductError: action.payload.errorMessage
             }
+        case CHECKOUT_CART:
+            return {
+                ...state,
+                checkoutCartLoading: action.payload.loading,
+                checkoutCartResult: action.payload.data,
+                checkoutCartError: action.payload.errorMessage
+            }
         case ADD_ITEM_TO_CART:
             return {
                 ...state,
                 addItemToCartLoading: action.payload.loading,
                 addItemToCartResult: action.payload.data,
                 addItemToCartError: action.payload.errorMessage
+            }
+        case GET_USER_CART:
+            return {
+                ...state,
+                getUserCartLoading: action.payload.loading,
+                getUserCartResult: action.payload.data,
+                getUserCartError: action.payload.errorMessage
             }
         default:
             return state;

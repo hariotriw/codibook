@@ -200,6 +200,14 @@ class ShoppingController {
                             })
                         })
 
+                        ShoppingCart.update({
+                            status: "closed"
+                            },{
+                            where: {
+                                UserId: UserId, status: "open", id: shopCartId
+                            }
+                        })
+
                         console.log("berhasil menambahkan Line Item");
                         res.json("cek console log backend")
                     }
@@ -615,6 +623,60 @@ class ShoppingController {
 
     // --- fungsi untuk user mengambil data checkout ---
     static async getDataCheckout(req, res){
+        try {
+            console.log("chekout cart")
+            const access_token = req.headers['access-token']
+            const verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            const UserId = verifyToken.id
+            const role = verifyToken.role
+            if(role === "user"){
+                // let shopCartId = req.params.CartId
+                // console.log(shopCartId);
+                let shoppingCart = await ShoppingCart.findAll({
+                    where: {
+                        UserId: UserId, status: "open"
+                    },
+                    include: [{
+                        model: LineItem,
+                        include: [{
+                            model: Product,
+                            foreignKey: 'ProductId',
+                        },{
+                            model: Order,
+                            foreignKey: 'OrderName',
+                        }]
+                    }]
+                })
+                //     Line Item
+                // let result = await LineItem.findAll({
+                //     include: [{
+                //         model: Product,
+                //         foreignKey: 'ProductId',
+                //     },{
+                //         model: ShoppingCart,
+                //         foreignKey: 'ShoppingCartId',
+                //     },{
+                //         model: Order,
+                //         foreignKey: 'OrderName',
+                //     }]
+                // })
+                if (shoppingCart === null){
+                    // Jika shopping cart tidak ditemukan
+                    res.status(500).json("invalid shopping cart")
+                } else {
+                    // Jika shopping cart ditemukan
+                    console.log("shopping cart found");
+                    res.json(shoppingCart)
+                }
+            } else {
+                res.status(403).json("You don't have access to use this features..")
+            }
+        } catch (err) {
+            res.status(403).json(err)
+        }
+    }
+    // --- fungsi untuk user mengambil data checkout ---
+    static async getDataCheckoutCopy(req, res){
         try {
             console.log("order cart")
             const access_token = req.headers['access-token']

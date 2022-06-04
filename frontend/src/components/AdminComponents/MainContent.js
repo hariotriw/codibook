@@ -14,6 +14,9 @@ import EditProduct from '../../pages/AdminPages/Products/EditProduct'
 import DeleteProduct from '../../pages/AdminPages/Products/DeleteProduct'
 import ListOrder from '../../pages/AdminPages/Orders/ListOrder'
 import Katalog from '../../pages/Katalog'
+import UserCart from '../../pages/UserPages/UserCart'
+import UserOrder from '../../pages/UserPages/UserOrder'
+import UserPayOrder from '../../pages/UserPages/UserPayOrder'
 
 const MainContent = () => {
 
@@ -21,9 +24,10 @@ const MainContent = () => {
         <>
             <div className='container-fluid'>
             <Routes>
-                <Route path="/" element={<Katalog></Katalog>}></Route>
                 <Route path="/login" element={<Login></Login>}></Route>
                 <Route path="/register" element={<Register></Register>}></Route>
+
+                {/* --- Admin --- */}
                 <Route path="/admin/dashboard" element={<Dashboard></Dashboard>}></Route>
                 <Route path="/admin/profile" element={<Profile></Profile>}></Route>
                 <Route path="/admin/addproduct" element={<AddProduct></AddProduct>}></Route>
@@ -32,6 +36,12 @@ const MainContent = () => {
                 {/* <Route path="/admin/editproduct" element={<EditProduct></EditProduct>}></Route> */}
                 <Route path="/admin/deleteproduct" element={<DeleteProduct></DeleteProduct>}></Route>
                 <Route path="/admin/listorder" element={<ListOrder></ListOrder>}></Route>
+                
+                {/* --- User --- */}
+                <Route path="/" element={<Katalog></Katalog>}></Route>
+                <Route path="/my-cart" element={<UserCart></UserCart>}></Route>
+                <Route path="/my-order" element={<UserOrder></UserOrder>}></Route>
+                <Route path="/pay-order" element={<UserPayOrder></UserPayOrder>}></Route>
             </Routes>
             </div>
         </>

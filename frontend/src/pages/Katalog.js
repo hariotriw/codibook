@@ -128,49 +128,6 @@ const Katalog = () => {
                                             <p className="text-center"> loading data . . .</p>
                                                 : katalogAllProductError ? katalogAllProductError : 'data kosong'
                                     }
-
-
-
-
-
-                                    {/* <div className="col-3 mb-3">
-                                        <div className="card ">
-                                            <div className="card-header">
-                                                    <div className="no-link row p-0 m-0" to='#'>
-                                                        <img src={image} className="img-fluid p-0" alt="..."/>
-                                                    </div>
-                                            </div>
-                                            <div className="card-body py-2 fs-6">
-                                                <div className="row  text-center text-justify">
-                                                    <b>Buku laskar pelangi Buku laskar pelang Buku laskar pelang</b>
-                                                </div>
-                                                <hr />
-                                                <div className="row">
-                                                    <p className="text-justify">ini berisi deskripsi bukuini berisi deskripsi bukuini berisi deskripsi bukuini berisi deskripsi buku ini berisi deskripsi buku</p>
-                                                </div>
-                                                <div className="row">
-                                                    <p className="text-justify">harga: <b>70000</b></p>
-                                                </div>
-                                                <div className="row">
-                                                    <p className="text-justify">brand: <b>ini brand</b></p>
-                                                </div>
-                                                <div className="row">
-                                                    <p className="text-justify">sisa stock: <b>10</b></p>
-                                                </div>
-                                            </div>
-                                            <div className="card-footer p-0 text-end">
-                                                <Button className="btn w-100">
-                                                    <b>Add to cart</b>
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </div> */}
-                                    
-                                    {/* <div className="col-4 mb-3">
-                                        <Link className="no-link row p-0 m-0" to='#'>
-                                            <img src={image} className="img-fluid p-0" alt="..."/>
-                                        </Link>
-                                    </div> */}
                                 </div>
                             </div>
 						</div>
