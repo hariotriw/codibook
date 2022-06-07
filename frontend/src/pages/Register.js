@@ -11,7 +11,7 @@ const Register = () => {
 
 	const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
-    const [fullname, setFullname] = useState('')
+    const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [repassword, setRepassword] = useState('')
 
@@ -27,7 +27,7 @@ const Register = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         console.log('handle submit');
-        dispatch(registerAction({username: username, email: email, fullname: fullname, password:password, repassword:repassword}))
+        dispatch(registerAction({username: username, email: email, name: name, password:password, repassword:repassword}))
     }
 
 	return (
@@ -52,7 +52,7 @@ const Register = () => {
 										</div>
 										<div className="mb-2">
 											<label  className="col-sm-6 col-form-label">Name</label>
-											<input type="text" className="form-control" name="fullname" value={fullname} onChange={(event) => setFullname(event.target.value)} required/>
+											<input type="text" className="form-control" name="name" value={name} onChange={(event) => setName(event.target.value)} required/>
 										</div>
 										<div className="mb-2">
 											<label  className="col-sm-6 col-form-label">Password</label>

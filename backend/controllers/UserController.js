@@ -174,23 +174,29 @@ class UserController {
     // --- fungsi untuk mengelola form edit user di back-end ---
     static async update(req, res){
         try {
-            let { uuid, username, email, fullname, avatar, bio, status} = req.body;
+            console.log('update');
+            const access_token = req.headers['access-token']
+            let verifyToken = jwt.tokenVerifier(access_token, 'secret')
+            let id = verifyToken.id
 
+            // console.log(req.body);
+            let { name, email, birthdate, gender} = req.body;
             let result = await User.update({
-                username, 
+                name, 
                 email, 
-                fullname, 
-                avatar, 
-                bio,
-                status
+                birthdate, 
+                gender
             }, {
                 where: {
-                    uuid: uuid
+                    id: id
                 }
             })
 
-            // res.redirect('/users')
-            res.json('berhasil mengubah user')
+            if(result){
+                res.json(result)
+            } else {
+                res.json("User not found")
+            }
         } catch (err) {
             res.json(err)
         }

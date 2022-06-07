@@ -21,3 +21,8 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+input.transparent-input{
+  background-color:transparent !important;
+  border:none !important;
+}

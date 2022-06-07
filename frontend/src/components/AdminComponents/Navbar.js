@@ -1,24 +1,42 @@
 import React, { useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { loginStatus, getDataUser } from "../../actions/AuthenticationAction";
+import { loginStatus, getDataUser, logoutAction } from "../../actions/AuthenticationAction";
+import Swal from 'sweetalert2';
 
 
 const Navbar = () => {
     const navigate = useNavigate()
 	const dispatch = useDispatch()
     
-	const { getDataUserLoading, getDataUserResult, getDataUserError, loginStatusResult } = useSelector((state) => state.AuthReducer)
+	const { getDataUserLoading, getDataUserResult, getDataUserError, loginStatusResult,
+        logoutActionResult } = useSelector((state) => state.AuthReducer)
 
 	useEffect(() => {
 		dispatch(loginStatus())
 		dispatch(getDataUser())
 	}, [dispatch])
 
-	const logoutHandler = () => {
-		localStorage.clear()
-		// navigate('/login')
+	const logoutHandler = (event) => {
+        event.preventDefault()
+        // console.log('handle submit');
+        dispatch(logoutAction())
 	}
+
+    useEffect(() => {
+		console.log(logoutActionResult);
+		// console.log(loginActionError);
+		if(logoutActionResult.logoutStatus === true){
+            console.log('lalalala');
+			console.log(logoutActionResult);
+			Swal.fire({  
+				icon: 'success', 
+				text: 'Berhasil logout'
+				});  
+			// navigate('/')
+            window.location.reload()
+		}		
+	}, [logoutActionResult, dispatch])
 
     return (
         <>
@@ -54,7 +72,7 @@ const Navbar = () => {
                                     <Link to="/profile" className='nav-item nav-link active'>Profile</Link>
                                     {/* ----- end General ----- */}
                                     {/* ----- Admin ----- */}
-                                    <Link to="/admin/dashboard" className='nav-item nav-link active'>Dashboard</Link>
+                                    {/* <Link to="/admin/dashboard" className='nav-item nav-link active'>Dashboard</Link> */}
                                     {/* <Link to="/admin/profile" className='nav-item nav-link active'>Profile</Link> */}
                                     <li class="nav-item dropdown">
                                         <a class="nav-link active dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">Seller Management</a>
@@ -84,7 +102,7 @@ const Navbar = () => {
                             { loginStatusResult.status ===true ? 
                             /* ----- Login ----- */
                                 <button className="btn btn-secondary my-2 my-sm-0 text-white ms-auto me-3" type="button"
-                                onClick={() => logoutHandler()}>Logout</button>
+                                onClick={(event) => logoutHandler(event)}>Logout</button>
                                 : 
                                 /* ----- Not Login ----- */
                             <Link to="/login" className='nav-item nav-link'>Login</Link>}
